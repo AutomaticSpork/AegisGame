@@ -35,10 +35,6 @@ public class GameView extends View {
         sprites = new ArrayList<Sprite>();
 
         sprites.add(new CoreSprite(100));
-        sprites.add(createEnemy());
-        sprites.add(createEnemy());
-        sprites.add(createEnemy());
-        sprites.add(createEnemy());
     }
 
     private Enemy createEnemy() {
@@ -48,10 +44,12 @@ public class GameView extends View {
         } else {
             pos = new Vector(random.nextBoolean() ? 0 : screenSize.x, random.nextInt(screenSize.y));
         }
-        return new Enemy(pos, random.nextInt(5) + 5, random.nextInt(2) + 1, 10);
+        return new Enemy(pos, random.nextInt(4) + 5, random.nextInt(2) + 1, 10);
     }
 
     protected void onDraw(Canvas canvas) {
+        if (random.nextInt(10) == 1) sprites.add(createEnemy());
+
         for (Sprite sprite : sprites) {
             sprite.update(sprites);
         }

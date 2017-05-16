@@ -1,6 +1,8 @@
 package io.github.automaticspork.aegis.components;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import java.util.List;
 
@@ -26,6 +28,9 @@ public class Enemy extends MovingSprite {
 
         for (Sprite s : sprites) {
             if (s instanceof CoreSprite) {
+                Vector diff = s.position.clone();
+                diff.subtract(position);
+                speed = 500 / diff.magnitude();
                 moveTo(s.position);
             }
         }
@@ -34,5 +39,6 @@ public class Enemy extends MovingSprite {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+        canvas.drawCircle(position.getX(), position.getY(), (int)radius, new Paint(Color.RED));
     }
 }

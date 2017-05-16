@@ -24,8 +24,6 @@ public class MovingSprite extends Sprite {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-
-        canvas.drawCircle(position.getX(), position.getY(), (int)radius, new Paint(Color.RED));
     }
 
     @Override

@@ -47,8 +47,9 @@ public class Vector implements Cloneable {
     }
 
     public void normalize() {
-        x /= magnitude();
-        y /= magnitude();
+        double mag = magnitude();
+        x /= mag;
+        y /= mag;
     }
 
     public int getX() {

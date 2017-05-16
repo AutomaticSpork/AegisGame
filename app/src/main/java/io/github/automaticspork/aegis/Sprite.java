@@ -25,7 +25,7 @@ public class Sprite {
 
     public boolean collides(Sprite other) {
         Vector diff = other.position.clone();
-        diff.subtract(other.position);
+        diff.subtract(position);
         return diff.magnitude() < (radius + other.radius);
     }
 
