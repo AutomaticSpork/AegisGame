@@ -6,6 +6,7 @@ import android.graphics.Paint;
 
 import java.util.List;
 
+import io.github.automaticspork.aegis.CollidableSprite;
 import io.github.automaticspork.aegis.MovingSprite;
 import io.github.automaticspork.aegis.Sprite;
 import io.github.automaticspork.aegis.Vector;
@@ -18,7 +19,7 @@ public class Enemy extends MovingSprite {
     public float damage;
 
     public Enemy(Vector pos, float radius, float s, float d) {
-        super(pos, new Paint(Color.RED), radius, s);
+        super(pos, new Paint(), radius, s);
         damage = d;
     }
 
@@ -27,11 +28,19 @@ public class Enemy extends MovingSprite {
         super.update(sprites);
 
         for (Sprite s : sprites) {
+            if (s instanceof ShieldSprite && collides((CollidableSprite)s)) {
+                toDelete = true;
+            }
             if (s instanceof CoreSprite) {
                 Vector diff = s.position.clone();
                 diff.subtract(position);
                 speed = 500 / diff.magnitude();
                 moveTo(s.position);
+
+                if (collides((CollidableSprite)s)) {
+                    ((CoreSprite)s).health -= damage;
+                    toDelete = true;
+                }
             }
         }
     }

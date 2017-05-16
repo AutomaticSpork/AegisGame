@@ -15,6 +15,7 @@ import java.util.Random;
 
 import io.github.automaticspork.aegis.components.CoreSprite;
 import io.github.automaticspork.aegis.components.Enemy;
+import io.github.automaticspork.aegis.components.ShieldSprite;
 import io.github.automaticspork.aegis.components.TextSprite;
 import io.github.automaticspork.aegis.components.UISprite;
 
@@ -39,7 +40,7 @@ public class GameView extends View {
         sprites = new ArrayList<Sprite>();
 
         sprites.add(new CoreSprite(5000));
-
+        sprites.add(new ShieldSprite());
         sprites.add(new UISprite());
     }
 

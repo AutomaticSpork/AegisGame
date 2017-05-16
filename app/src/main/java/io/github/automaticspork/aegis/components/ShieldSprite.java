@@ -11,17 +11,17 @@ import io.github.automaticspork.aegis.Sprite;
 import io.github.automaticspork.aegis.Vector;
 
 /**
- * Created by jaren on 5/15/17.
+ * Created by jaren on 5/16/17.
  */
 
-public class CoreSprite extends CollidableSprite {
-    public float maxHealth;
-    public float health;
-
-    public CoreSprite(float h) {
-        super(new Vector(), new Paint(), 50);
-        health = h;
-        maxHealth = health;
+public class ShieldSprite extends CollidableSprite {
+    public ShieldSprite() {
+        super(new Vector(), new Paint(), 100);
+        Paint p = new Paint();
+        p.setStyle(Paint.Style.STROKE);
+        p.setStrokeWidth(10);
+        p.setColor(Color.BLUE);
+        paint = p;
     }
 
     @Override
@@ -35,6 +35,12 @@ public class CoreSprite extends CollidableSprite {
 
         position = new Vector(canvas.getWidth() / 2, canvas.getHeight() / 2);
 
-        canvas.drawCircle(position.x, position.y, radius, paint);
+        canvas.drawArc(position.x - radius, position.y - radius, position.x + radius, position.y + radius, 90, 180, false, paint);
+    }
+
+    @Override
+    public boolean collides(CollidableSprite other) {
+        // TODO: Check angle
+        return super.collides(other);
     }
 }
