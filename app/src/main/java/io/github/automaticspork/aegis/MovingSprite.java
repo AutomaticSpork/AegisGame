@@ -11,12 +11,12 @@ import java.util.List;
  * Created by jaren on 5/15/17.
  */
 
-public class MovingSprite extends Sprite {
-    public double speed;
+public class MovingSprite extends CollidableSprite {
+    public float speed;
     public Vector velocity;
 
-    public MovingSprite(Vector pos, double r, double s) {
-        super(pos, r);
+    public MovingSprite(Vector pos, Paint p, float r, float s) {
+        super(pos, p, r);
         speed = s;
         velocity = new Vector();
     }

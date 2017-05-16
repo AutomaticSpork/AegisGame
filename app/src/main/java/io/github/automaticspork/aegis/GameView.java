@@ -3,16 +3,20 @@ package io.github.automaticspork.aegis;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.view.View;
 import android.view.WindowManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import io.github.automaticspork.aegis.components.CoreSprite;
 import io.github.automaticspork.aegis.components.Enemy;
+import io.github.automaticspork.aegis.components.TextSprite;
+import io.github.automaticspork.aegis.components.UISprite;
 
 /**
  * Created by jaren on 5/12/17.
@@ -34,7 +38,9 @@ public class GameView extends View {
 
         sprites = new ArrayList<Sprite>();
 
-        sprites.add(new CoreSprite(100));
+        sprites.add(new CoreSprite(5000));
+
+        sprites.add(new UISprite());
     }
 
     private Enemy createEnemy() {
@@ -60,6 +66,7 @@ public class GameView extends View {
             }
         }
         canvas.drawColor(Color.WHITE);
+        Collections.sort(sprites);
         for (Sprite sprite : sprites) {
             sprite.draw(canvas);
         }

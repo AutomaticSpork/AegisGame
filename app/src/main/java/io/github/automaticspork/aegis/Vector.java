@@ -5,20 +5,20 @@ package io.github.automaticspork.aegis;
  */
 
 public class Vector implements Cloneable {
-    public double x;
-    public double y;
+    public float x;
+    public float y;
 
     public Vector() {
         x = 0;
         y = 0;
     }
 
-    public Vector(double val) {
+    public Vector(float val) {
         x = val;
         y = val;
     }
 
-    public Vector(double sX, double sY) {
+    public Vector(float sX, float sY) {
         x = sX;
         y = sY;
     }
@@ -42,21 +42,13 @@ public class Vector implements Cloneable {
         y -= other.y;
     }
 
-    public double magnitude() {
-        return Math.sqrt(x * x + y * y);
+    public float magnitude() {
+        return (float)Math.sqrt(x * x + y * y);
     }
 
     public void normalize() {
         double mag = magnitude();
         x /= mag;
         y /= mag;
-    }
-
-    public int getX() {
-        return (int)x;
-    }
-
-    public int getY() {
-        return (int)y;
     }
 }

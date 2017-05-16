@@ -15,10 +15,10 @@ import io.github.automaticspork.aegis.Vector;
  */
 
 public class Enemy extends MovingSprite {
-    public double damage;
+    public float damage;
 
-    public Enemy(Vector pos, double radius, double s, double d) {
-        super(pos, radius, s);
+    public Enemy(Vector pos, float radius, float s, float d) {
+        super(pos, new Paint(Color.RED), radius, s);
         damage = d;
     }
 
@@ -39,6 +39,6 @@ public class Enemy extends MovingSprite {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        canvas.drawCircle(position.getX(), position.getY(), (int)radius, new Paint(Color.RED));
+        canvas.drawCircle(position.x, position.y, radius, paint);
     }
 }
