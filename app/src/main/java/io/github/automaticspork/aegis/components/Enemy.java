@@ -28,7 +28,7 @@ public class Enemy extends MovingSprite {
         super.update(sprites);
 
         for (Sprite s : sprites) {
-            if (s instanceof ShieldSprite && collides((CollidableSprite)s)) {
+            if (s instanceof ShieldSprite && ((CollidableSprite)s).collides(this)) {
                 toDelete = true;
             }
             if (s instanceof CoreSprite) {
@@ -37,7 +37,7 @@ public class Enemy extends MovingSprite {
                 speed = 500 / diff.magnitude();
                 moveTo(s.position);
 
-                if (collides((CollidableSprite)s)) {
+                if (((CollidableSprite)s).collides(this)) {
                     ((CoreSprite)s).health -= damage;
                     toDelete = true;
                 }
