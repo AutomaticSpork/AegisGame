@@ -18,10 +18,13 @@ import io.github.automaticspork.aegis.Vector;
 
 public class Enemy extends MovingSprite {
     public float damage;
+    public int score;
 
     public Enemy(Vector pos, float radius, float s, float d) {
         super(pos, new Paint(), radius, s);
         damage = d;
+        score = 1;
+        paint.setColor(Color.parseColor("#546e7a"));
     }
 
     @Override

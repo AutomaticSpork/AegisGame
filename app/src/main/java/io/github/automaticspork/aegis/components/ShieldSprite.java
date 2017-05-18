@@ -22,11 +22,9 @@ public class ShieldSprite extends CollidableSprite {
 
     public ShieldSprite() {
         super(new Vector(), new Paint(), 100);
-        Paint p = new Paint();
-        p.setStyle(Paint.Style.STROKE);
-        p.setStrokeWidth(10);
-        p.setColor(Color.BLUE);
-        paint = p;
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(10);
+        paint.setColor(Color.parseColor("#00acc1"));
     }
 
     @Override
@@ -42,6 +40,7 @@ public class ShieldSprite extends CollidableSprite {
 
         for (Sprite s : sprites) {
             if (s instanceof Enemy && collides((CollidableSprite)s)) {
+                view.score += ((Enemy)s).score;
                 s.toDelete = true;
             }
         }

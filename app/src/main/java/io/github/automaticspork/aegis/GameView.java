@@ -34,9 +34,16 @@ public class GameView extends View {
     public boolean clearSpritesNextTick;
     public boolean isRunning;
     public Vector lastTouch;
+    public int score;
+    public int winScore;
+    public int startHealth;
 
     public GameView(Context context) {
         super(context);
+
+        winScore = 100;
+        startHealth = 100;
+        score = 0;
 
         lastTouch = new Vector();
         setOnTouchListener(new OnTouchListener() {
@@ -65,7 +72,7 @@ public class GameView extends View {
         clearSpritesNextTick = false;
         isRunning = true;
 
-        sprites.add(new CoreSprite(5000));
+        sprites.add(new CoreSprite(startHealth));
         sprites.add(new ShieldSprite());
         sprites.add(new UISprite());
     }
@@ -87,12 +94,12 @@ public class GameView extends View {
         } else {
             pos = new Vector(random.nextBoolean() ? 0 : screenSize.x, random.nextInt(screenSize.y));
         }
-        return new Enemy(pos, random.nextInt(4) + 5, random.nextInt(2) + 1, 10);
+        return new Enemy(pos, random.nextInt(4) + 10, random.nextInt(2) + 1, 10);
     }
 
     protected void onDraw(Canvas canvas) {
         if (isRunning) {
-            if (random.nextInt(10) == 1) sprites.add(createEnemy());
+            if (random.nextInt(30) == 1) sprites.add(createEnemy());
         }
 
         if (clearSpritesNextTick) {
@@ -111,7 +118,10 @@ public class GameView extends View {
                 i--;
             }
         }
-        canvas.drawColor(Color.WHITE);
+
+        if (score > winScore) endGame(true);
+
+        canvas.drawColor(Color.parseColor("#263238"));
         Collections.sort(sprites);
         for (Sprite sprite : sprites) {
             sprite.draw(canvas);

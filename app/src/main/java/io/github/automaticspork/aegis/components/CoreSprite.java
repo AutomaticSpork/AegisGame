@@ -23,6 +23,7 @@ public class CoreSprite extends CollidableSprite {
         super(new Vector(), new Paint(), 50);
         health = h;
         maxHealth = health;
+        paint.setColor(Color.parseColor("#ffa000"));
     }
 
     @Override
