@@ -6,6 +6,7 @@ import android.graphics.Paint;
 
 import java.util.List;
 
+import io.github.automaticspork.aegis.GameView;
 import io.github.automaticspork.aegis.Sprite;
 import io.github.automaticspork.aegis.Vector;
 
@@ -22,7 +23,7 @@ public class UISprite extends Sprite {
     }
 
     @Override
-    public void update(List<Sprite> sprites) {
+    public void update(List<Sprite> sprites, GameView view) {
         for (Sprite s : sprites) {
             if (s instanceof CoreSprite) {
                 ratio = ((CoreSprite)s).health / ((CoreSprite)s).maxHealth;

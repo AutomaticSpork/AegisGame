@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import java.util.List;
 
 import io.github.automaticspork.aegis.CollidableSprite;
+import io.github.automaticspork.aegis.GameView;
 import io.github.automaticspork.aegis.MovingSprite;
 import io.github.automaticspork.aegis.Sprite;
 import io.github.automaticspork.aegis.Vector;
@@ -24,23 +25,15 @@ public class Enemy extends MovingSprite {
     }
 
     @Override
-    public void update(List<Sprite> sprites) {
-        super.update(sprites);
+    public void update(List<Sprite> sprites, GameView view) {
+        super.update(sprites, view);
 
         for (Sprite s : sprites) {
-            if (s instanceof ShieldSprite && ((CollidableSprite)s).collides(this)) {
-                toDelete = true;
-            }
             if (s instanceof CoreSprite) {
                 Vector diff = s.position.clone();
                 diff.subtract(position);
                 speed = 500 / diff.magnitude();
                 moveTo(s.position);
-
-                if (((CollidableSprite)s).collides(this)) {
-                    ((CoreSprite)s).health -= damage;
-                    toDelete = true;
-                }
             }
         }
     }

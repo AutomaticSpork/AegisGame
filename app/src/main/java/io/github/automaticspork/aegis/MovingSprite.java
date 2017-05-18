@@ -27,8 +27,8 @@ public class MovingSprite extends CollidableSprite {
     }
 
     @Override
-    public void update(List<Sprite> sprites) {
-        super.update(sprites);
+    public void update(List<Sprite> sprites, GameView view) {
+        super.update(sprites, view);
         position.add(velocity);
     }
 

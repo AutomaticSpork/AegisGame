@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import java.util.List;
 
 import io.github.automaticspork.aegis.CollidableSprite;
+import io.github.automaticspork.aegis.GameView;
 import io.github.automaticspork.aegis.Sprite;
 import io.github.automaticspork.aegis.Vector;
 
@@ -25,15 +26,26 @@ public class CoreSprite extends CollidableSprite {
     }
 
     @Override
-    public void update(List<Sprite> sprites) {
-        super.update(sprites);
+    public void update(List<Sprite> sprites, GameView view) {
+        super.update(sprites, view);
+
+        position = new Vector(view.screenSize.x / 2, view.screenSize.y / 2);
+
+        for (Sprite s : sprites) {
+            if (s instanceof Enemy) {
+                if (collides((CollidableSprite)s)) {
+                    health -= ((Enemy)s).damage;
+                    s.toDelete = true;
+                }
+            }
+        }
+
+        if (health <= 0) view.endGame(false);
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-
-        position = new Vector(canvas.getWidth() / 2, canvas.getHeight() / 2);
 
         canvas.drawCircle(position.x, position.y, radius, paint);
     }

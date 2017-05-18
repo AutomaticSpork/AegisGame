@@ -5,6 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.util.Log;
+import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -24,12 +27,32 @@ import io.github.automaticspork.aegis.components.UISprite;
  */
 
 public class GameView extends View {
-    private Point screenSize;
+    public Point screenSize;
     private List<Sprite> sprites;
     private Random random;
+    public List<Sprite> spritesToAdd;
+    public boolean clearSpritesNextTick;
+    public boolean isRunning;
+    public Vector lastTouch;
 
     public GameView(Context context) {
         super(context);
+
+        lastTouch = new Vector();
+        setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                lastTouch = new Vector(event.getX(), event.getY());
+                return false;
+            }
+        });
+        setOnDragListener(new OnDragListener() {
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+                lastTouch = new Vector(event.getX(), event.getY());
+                return false;
+            }
+        });
 
         random = new Random();
 
@@ -38,10 +61,23 @@ public class GameView extends View {
         wm.getDefaultDisplay().getSize(screenSize);
 
         sprites = new ArrayList<Sprite>();
+        spritesToAdd = new ArrayList<Sprite>();
+        clearSpritesNextTick = false;
+        isRunning = true;
 
         sprites.add(new CoreSprite(5000));
         sprites.add(new ShieldSprite());
         sprites.add(new UISprite());
+    }
+
+    public void endGame(boolean win) {
+        Paint p = new Paint();
+        p.setTextSize(100);
+        p.setColor(win ? Color.GREEN : Color.RED);
+        p.setTextAlign(Paint.Align.CENTER);
+        spritesToAdd.add(new TextSprite(new Vector(screenSize.x / 2, screenSize.y / 2), p, win ? "YOU WIN!" : "YOU LOSE :("));
+        clearSpritesNextTick = true;
+        isRunning = false;
     }
 
     private Enemy createEnemy() {
@@ -55,10 +91,19 @@ public class GameView extends View {
     }
 
     protected void onDraw(Canvas canvas) {
-        if (random.nextInt(10) == 1) sprites.add(createEnemy());
+        if (isRunning) {
+            if (random.nextInt(10) == 1) sprites.add(createEnemy());
+        }
+
+        if (clearSpritesNextTick) {
+            sprites.clear();
+            clearSpritesNextTick = false;
+        }
+        sprites.addAll(spritesToAdd);
+        spritesToAdd.clear();
 
         for (Sprite sprite : sprites) {
-            sprite.update(sprites);
+            sprite.update(sprites, this);
         }
         for (int i = 0; i < sprites.size(); i++) {
             if (sprites.get(i).toDelete) {

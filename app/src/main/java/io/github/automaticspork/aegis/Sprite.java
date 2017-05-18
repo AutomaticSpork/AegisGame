@@ -30,7 +30,7 @@ public class Sprite implements Comparable {
         return z - ((Sprite)s).z;
     }
 
-    public void update(List<Sprite> sprites) {
+    public void update(List<Sprite> sprites, GameView view) {
     }
 
     public void draw(Canvas canvas) {

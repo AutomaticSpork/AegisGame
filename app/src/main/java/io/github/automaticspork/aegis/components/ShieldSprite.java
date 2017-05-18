@@ -8,6 +8,7 @@ import android.util.Log;
 import java.util.List;
 
 import io.github.automaticspork.aegis.CollidableSprite;
+import io.github.automaticspork.aegis.GameView;
 import io.github.automaticspork.aegis.Sprite;
 import io.github.automaticspork.aegis.Vector;
 
@@ -17,7 +18,7 @@ import io.github.automaticspork.aegis.Vector;
 
 public class ShieldSprite extends CollidableSprite {
     public float minAngle = 270;
-    public float sweep = 180;
+    public float sweep = 120;
 
     public ShieldSprite() {
         super(new Vector(), new Paint(), 100);
@@ -29,15 +30,26 @@ public class ShieldSprite extends CollidableSprite {
     }
 
     @Override
-    public void update(List<Sprite> sprites) {
-        super.update(sprites);
+    public void update(List<Sprite> sprites, GameView view) {
+        super.update(sprites, view);
+
+        position = new Vector(view.screenSize.x / 2, view.screenSize.y / 2);
+
+        Vector diff = view.lastTouch.clone();
+        diff.subtract(position);
+        float angle = (float)Math.toDegrees(Math.atan2(diff.y, diff.x)) - sweep / 2;
+        minAngle = (angle < 0 ? 360 + angle : angle);
+
+        for (Sprite s : sprites) {
+            if (s instanceof Enemy && collides((CollidableSprite)s)) {
+                s.toDelete = true;
+            }
+        }
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-
-        position = new Vector(canvas.getWidth() / 2, canvas.getHeight() / 2);
 
         canvas.drawArc(position.x - radius, position.y - radius, position.x + radius, position.y + radius, minAngle, sweep, false, paint);
     }
