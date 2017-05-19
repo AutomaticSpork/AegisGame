@@ -15,49 +15,35 @@ import io.github.automaticspork.aegis.Vector;
  */
 
 public class UISprite extends Sprite {
-    private float lastHealth;
-    private float lastMaxHealth;
-    private int lastScore;
-
     public UISprite() {
         super(new Vector(), new Paint(Color.BLACK));
         z = 100;
     }
 
     @Override
-    public void update(List<Sprite> sprites, GameView view) {
-        lastScore = view.score;
-
-        for (Sprite s : sprites) {
-            if (s instanceof CoreSprite) {
-                lastHealth = ((CoreSprite)s).health;
-                lastMaxHealth = ((CoreSprite)s).maxHealth;
-            }
-        }
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
+    public void draw(Canvas canvas, GameView view) {
+        super.draw(canvas, view);
 
         float rSize = 100;
         float bSize = 10;
-        float ratio = lastHealth / lastMaxHealth;
+        float ratio = view.core.health / view.core.maxHealth;
 
         Paint p2 = new Paint();
-        p2.setColor(Color.rgb((int)(255 * (1 - ratio)), (int)(255 * ratio), 0));
+        if (ratio < 0.33) p2.setColor(Color.parseColor("#e53935"));
+        else if (ratio < 0.66) p2.setColor(Color.parseColor("#ffb300"));
+        else p2.setColor(Color.parseColor("#2e7d32"));
         canvas.drawRect(bSize, bSize, canvas.getWidth() * ratio - bSize, rSize - bSize, p2);
 
         Paint p3 = new Paint();
         p3.setColor(Color.WHITE);
         p3.setTextAlign(Paint.Align.CENTER);
         p3.setTextSize(rSize / 2);
-        canvas.drawText((int)lastHealth + "/" + (int)lastMaxHealth, canvas.getWidth() / 2, rSize / 2 + 2 * bSize, p3);
+        canvas.drawText((int)view.core.health + "/" + (int)view.core.maxHealth, canvas.getWidth() / 2, rSize / 2 + 2 * bSize, p3);
 
         Paint p4 = new Paint();
         p4.setColor(Color.BLACK);
         p4.setTextAlign(Paint.Align.CENTER);
         p4.setTextSize(rSize / 2);
-        canvas.drawText("" + lastScore, canvas.getWidth() / 2, canvas.getHeight() - rSize, p4);
+        canvas.drawText("" + view.score, canvas.getWidth() / 2, canvas.getHeight() - rSize, p4);
     }
 }

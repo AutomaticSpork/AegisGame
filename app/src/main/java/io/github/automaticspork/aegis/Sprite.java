@@ -33,6 +33,6 @@ public class Sprite implements Comparable {
     public void update(List<Sprite> sprites, GameView view) {
     }
 
-    public void draw(Canvas canvas) {
+    public void draw(Canvas canvas, GameView view) {
     }
 }

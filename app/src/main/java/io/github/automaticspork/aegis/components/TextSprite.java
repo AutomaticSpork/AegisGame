@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import io.github.automaticspork.aegis.GameView;
 import io.github.automaticspork.aegis.Sprite;
 import io.github.automaticspork.aegis.Vector;
 
@@ -20,8 +21,8 @@ public class TextSprite extends Sprite {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
+    public void draw(Canvas canvas, GameView view) {
+        super.draw(canvas, view);
         canvas.drawText(text, position.x, position.y, paint);
     }
 }

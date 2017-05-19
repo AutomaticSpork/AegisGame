@@ -43,8 +43,10 @@ public class Vector implements Cloneable {
     }
 
     public float magnitude() {
-        return (float)Math.sqrt(x * x + y * y);
+        return (float)Math.sqrt(magnitudeSquared());
     }
+
+    public float magnitudeSquared() { return x * x + y * y; }
 
     public void normalize() {
         double mag = magnitude();

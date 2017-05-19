@@ -39,16 +39,16 @@ public class ShieldSprite extends CollidableSprite {
         minAngle = (angle < 0 ? 360 + angle : angle);
 
         for (Sprite s : sprites) {
-            if (s instanceof Enemy && collides((CollidableSprite)s)) {
-                view.score += ((Enemy)s).score;
+            if (s instanceof CenterMovingSprite && collides((CollidableSprite)s)) {
+                if (s instanceof Enemy) view.score += ((Enemy)s).score;
                 s.toDelete = true;
             }
         }
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
+    public void draw(Canvas canvas, GameView view) {
+        super.draw(canvas, view);
 
         canvas.drawArc(position.x - radius, position.y - radius, position.x + radius, position.y + radius, minAngle, sweep, false, paint);
     }

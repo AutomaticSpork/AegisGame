@@ -32,21 +32,12 @@ public class CoreSprite extends CollidableSprite {
 
         position = new Vector(view.screenSize.x / 2, view.screenSize.y / 2);
 
-        for (Sprite s : sprites) {
-            if (s instanceof Enemy) {
-                if (collides((CollidableSprite)s)) {
-                    health -= ((Enemy)s).damage;
-                    s.toDelete = true;
-                }
-            }
-        }
-
         if (health <= 0) view.endGame(false);
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
+    public void draw(Canvas canvas, GameView view) {
+        super.draw(canvas, view);
 
         canvas.drawCircle(position.x, position.y, radius, paint);
     }

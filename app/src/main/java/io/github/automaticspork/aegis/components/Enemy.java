@@ -16,34 +16,20 @@ import io.github.automaticspork.aegis.Vector;
  * Created by jaren on 5/15/17.
  */
 
-public class Enemy extends MovingSprite {
+public class Enemy extends CenterMovingSprite {
     public float damage;
-    public int score;
 
-    public Enemy(Vector pos, float radius, float s, float d) {
-        super(pos, new Paint(), radius, s);
+    public Enemy(Vector pos, float radius, float sMult, float d) {
+        super(pos, radius, sMult);
         damage = d;
         score = 1;
-        paint.setColor(Color.parseColor("#546e7a"));
+        paint.setColor(Color.parseColor("#f44336"));
     }
 
     @Override
-    public void update(List<Sprite> sprites, GameView view) {
-        super.update(sprites, view);
+    public void onCollide(GameView view) {
+        super.onCollide(view);
 
-        for (Sprite s : sprites) {
-            if (s instanceof CoreSprite) {
-                Vector diff = s.position.clone();
-                diff.subtract(position);
-                speed = 500 / diff.magnitude();
-                moveTo(s.position);
-            }
-        }
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
-        canvas.drawCircle(position.x, position.y, radius, paint);
+        view.core.health -= damage;
     }
 }
