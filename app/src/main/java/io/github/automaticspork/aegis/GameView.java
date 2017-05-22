@@ -107,7 +107,7 @@ public class GameView extends View {
 
     protected void onDraw(Canvas canvas) {
         if (isRunning) {
-            if (random.nextInt(70) == 1) sprites.add(createSprite());
+            if (random.nextInt(60) == 1) sprites.add(createSprite());
         }
 
         if (clearSpritesNextTick) {

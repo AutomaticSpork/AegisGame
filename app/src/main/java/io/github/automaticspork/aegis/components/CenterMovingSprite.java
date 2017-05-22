@@ -18,20 +18,28 @@ import io.github.automaticspork.aegis.Vector;
 public class CenterMovingSprite extends MovingSprite {
     public int score;
     public float speedMultipler;
+    public Vector previousPos;
+    private Vector initialPos;
 
     public CenterMovingSprite(Vector pos, float radius, float sMult) {
         super(pos, new Paint(), radius, 0);
         score = 0;
         speedMultipler = sMult;
+        initialPos = pos.clone();
     }
 
     @Override
     public void update(List<Sprite> sprites, GameView view) {
         super.update(sprites, view);
 
+        previousPos = position.clone();
         Vector diff = view.core.position.clone();
         diff.subtract(position);
-        speed = (speedMultipler * view.screenSize.x / 2) / diff.magnitude();
+        float radius = diff.magnitude();
+        Vector initialDiff = view.core.position.clone();
+        initialDiff.subtract(initialPos);
+        float initialRadius = initialDiff.magnitude() + 10;
+        speed = speedMultipler * (view.screenSize.x / 30) * (float)Math.sqrt(1/radius - 1/initialRadius);
         moveTo(view.core.position);
 
         if (view.core.collides(this)) {

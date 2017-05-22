@@ -66,7 +66,7 @@ public class ShieldSprite extends CollidableSprite {
         diff.subtract(position);
         double angle = Math.toDegrees(Math.atan2(diff.y, diff.x));
         if (angle < 0) angle = 360 + angle;
-        if (!super.collides(other) || innerCollision.collides(other)) return false;
+        if (!super.collides(other) || (innerCollision.collides(other) && innerCollision.collides(new CollidableSprite(((CenterMovingSprite)other).previousPos, new Paint(), other.radius)))) return false;
         if (minAngle + sweep > 360) return angle > minAngle || angle < (minAngle + sweep) % 360;
         return angle > minAngle && angle < minAngle + sweep;
     }
