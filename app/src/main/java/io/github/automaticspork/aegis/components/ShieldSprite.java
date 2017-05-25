@@ -47,7 +47,10 @@ public class ShieldSprite extends CollidableSprite {
 
         for (Sprite s : sprites) {
             if (s instanceof CenterMovingSprite && collides((CollidableSprite)s)) {
-                if (s instanceof Enemy) view.score += ((Enemy)s).score;
+                if (s instanceof Enemy) {
+                    view.score += ((Enemy)s).score;
+                    if (s instanceof EliteEnemy) view.core.charges++;
+                }
                 s.toDelete = true;
             }
         }

@@ -19,9 +19,9 @@ import io.github.automaticspork.aegis.Vector;
 public class Enemy extends CenterMovingSprite {
     public float damage;
 
-    public Enemy(Vector pos, float radius, float sMult, float d) {
+    public Enemy(Vector pos, float radius, float sMult) {
         super(pos, radius, sMult);
-        damage = d;
+        damage = 10;
         score = 1;
         paint.setColor(Color.parseColor("#f44336"));
     }

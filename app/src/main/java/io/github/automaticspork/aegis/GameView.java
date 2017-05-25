@@ -18,6 +18,7 @@ import java.util.Random;
 
 import io.github.automaticspork.aegis.components.CenterMovingSprite;
 import io.github.automaticspork.aegis.components.CoreSprite;
+import io.github.automaticspork.aegis.components.EliteEnemy;
 import io.github.automaticspork.aegis.components.Enemy;
 import io.github.automaticspork.aegis.components.Powerup;
 import io.github.automaticspork.aegis.components.ShieldSprite;
@@ -39,6 +40,7 @@ public class GameView extends View {
     public int score;
     public int winScore;
     public int startHealth;
+    public boolean handledTouch;
 
     public CoreSprite core;
     public ShieldSprite shield;
@@ -50,11 +52,14 @@ public class GameView extends View {
         startHealth = 300;
         score = 0;
 
+        handledTouch = true;
+
         lastTouch = new Vector();
         setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 lastTouch = new Vector(event.getX(), event.getY());
+                handledTouch = false;
                 return false;
             }
         });
@@ -101,13 +106,18 @@ public class GameView extends View {
         } else {
             pos = new Vector(random.nextBoolean() ? 0 : screenSize.x, random.nextInt(screenSize.y));
         }
-        if (random.nextInt(10) > 2) return new Enemy(pos, random.nextInt(4) + 20, random.nextInt(8) + 4, 10);
-        else return new Powerup(pos, random.nextInt(4) + 20, random.nextInt(2) + 3, Powerup.PowerupType.values()[random.nextInt(3)], 10);
+        int result = random.nextInt(10);
+        if (result == 0)
+            return new EliteEnemy(pos, random.nextInt(4) + 60, random.nextInt(2) + 4);
+        else if (result < 3)
+            return new Powerup(pos, random.nextInt(4) + 20, random.nextInt(2) + 3, Powerup.PowerupType.values()[random.nextInt(3)], 10);
+        else
+            return new Enemy(pos, random.nextInt(4) + 20, random.nextInt(8) + 4);
     }
 
     protected void onDraw(Canvas canvas) {
         if (isRunning) {
-            if (random.nextInt(60) == 1) sprites.add(createSprite());
+            if (random.nextInt(100) == 1) sprites.add(createSprite());
         }
 
         if (clearSpritesNextTick) {
