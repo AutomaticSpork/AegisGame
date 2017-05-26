@@ -16,7 +16,6 @@ public class ElitePowerup extends EliteSprite {
 
     public ElitePowerup(Vector pos, float radius, float sMult, PowerupType t) {
         super(pos, radius, sMult);
-        score = 10;
         String colorString = "#000000";
         type = t;
         switch (type) {
@@ -45,7 +44,7 @@ public class ElitePowerup extends EliteSprite {
                 view.core.charges++;
                 break;
             case Radius:
-                score += 50;
+                view.score += 20;
                 break;
         }
     }

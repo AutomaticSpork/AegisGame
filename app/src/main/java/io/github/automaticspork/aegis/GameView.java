@@ -32,7 +32,7 @@ import io.github.automaticspork.aegis.components.UISprite;
  * Created by jaren on 5/12/17.
  */
 
-public class GameView extends View {
+public class GameView extends View implements View.OnTouchListener {
     public Point screenSize;
     private List<Sprite> sprites;
     private Random random;
@@ -57,33 +57,9 @@ public class GameView extends View {
 
         handledTouch = true;
 
-        final GameView self = this;
-
         lastTouch = new Vector();
-        setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                lastTouch = new Vector(event.getX(), event.getY());
-                handledTouch = false;
-                for (Sprite sprite : sprites) {
-                    if (sprite instanceof EliteSprite) {
-                        Vector diff = sprite.position.clone();
-                        diff.subtract(lastTouch);
-                        if (diff.magnitude() < ((EliteSprite)sprite).radius) {
-                            ((EliteSprite)sprite).onTap(self);
-                        }
-                    }
-                }
-                return false;
-            }
-        });
-        setOnDragListener(new OnDragListener() {
-            @Override
-            public boolean onDrag(View v, DragEvent event) {
-                lastTouch = new Vector(event.getX(), event.getY());
-                return false;
-            }
-        });
+
+        setOnTouchListener(this);
 
         random = new Random();
 
@@ -166,5 +142,21 @@ public class GameView extends View {
             sprite.draw(canvas, this);
         }
         invalidate();
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        lastTouch = new Vector(event.getX(), event.getY());
+        if ((event.getAction() & event.ACTION_MASK) == event.ACTION_DOWN) handledTouch = false;
+        for (Sprite sprite : sprites) {
+            if (sprite instanceof EliteSprite) {
+                Vector diff = sprite.position.clone();
+                diff.subtract(lastTouch);
+                if (diff.magnitude() < ((EliteSprite)sprite).radius) {
+                    ((EliteSprite)sprite).onTap(this);
+                }
+            }
+        }
+        return true;
     }
 }
