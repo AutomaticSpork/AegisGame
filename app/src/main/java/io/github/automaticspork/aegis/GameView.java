@@ -51,7 +51,7 @@ public class GameView extends View {
     public GameView(Context context) {
         super(context);
 
-        winScore = 300;
+        winScore = 200;
         startHealth = 300;
         score = 0;
 

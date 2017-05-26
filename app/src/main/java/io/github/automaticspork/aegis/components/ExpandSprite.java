@@ -32,7 +32,7 @@ public class ExpandSprite extends Sprite {
         radius += 20;
 
         for (Sprite sprite : sprites) {
-            if (sprite instanceof Enemy) {
+            if (sprite instanceof CenterMovingSprite) {
                 Vector diff = sprite.position.clone();
                 diff.subtract(position);
                 if (diff.magnitude() < radius) sprite.toDelete = true;
