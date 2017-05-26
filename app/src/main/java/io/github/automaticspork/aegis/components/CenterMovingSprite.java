@@ -50,6 +50,8 @@ public class CenterMovingSprite extends MovingSprite {
 
     public void onCollide(GameView view) {}
 
+    public void onShieldCollide(GameView view) {}
+
     @Override
     public void draw(Canvas canvas, GameView view) {
         super.draw(canvas, view);

@@ -19,6 +19,7 @@ import java.util.Random;
 import io.github.automaticspork.aegis.components.CenterMovingSprite;
 import io.github.automaticspork.aegis.components.CoreSprite;
 import io.github.automaticspork.aegis.components.EliteEnemy;
+import io.github.automaticspork.aegis.components.EliteSprite;
 import io.github.automaticspork.aegis.components.Enemy;
 import io.github.automaticspork.aegis.components.Powerup;
 import io.github.automaticspork.aegis.components.ShieldSprite;
@@ -48,11 +49,13 @@ public class GameView extends View {
     public GameView(Context context) {
         super(context);
 
-        winScore = 1000;
+        winScore = 300;
         startHealth = 300;
         score = 0;
 
         handledTouch = true;
+
+        final GameView self = this;
 
         lastTouch = new Vector();
         setOnTouchListener(new OnTouchListener() {
@@ -60,6 +63,15 @@ public class GameView extends View {
             public boolean onTouch(View v, MotionEvent event) {
                 lastTouch = new Vector(event.getX(), event.getY());
                 handledTouch = false;
+                for (Sprite sprite : sprites) {
+                    if (sprite instanceof EliteSprite) {
+                        Vector diff = sprite.position.clone();
+                        diff.subtract(lastTouch);
+                        if (diff.magnitude() < ((EliteSprite)sprite).radius) {
+                            ((EliteSprite)sprite).onTap(self);
+                        }
+                    }
+                }
                 return false;
             }
         });
@@ -107,17 +119,21 @@ public class GameView extends View {
             pos = new Vector(random.nextBoolean() ? 0 : screenSize.x, random.nextInt(screenSize.y));
         }
         int result = random.nextInt(10);
-        if (result == 0)
+        int result2 = random.nextInt(10);
+        if (result == 0) {
             return new EliteEnemy(pos, random.nextInt(4) + 60, random.nextInt(2) + 4);
-        else if (result < 3)
-            return new Powerup(pos, random.nextInt(4) + 20, random.nextInt(2) + 3, Powerup.PowerupType.values()[random.nextInt(3)], 10);
-        else
-            return new Enemy(pos, random.nextInt(4) + 20, random.nextInt(8) + 4);
+        } else {
+            if (result2 < 2)
+                return new Powerup(pos, random.nextInt(4) + 20, random.nextInt(2) + 3, Powerup.PowerupType.values()[random.nextInt(3)], 10);
+            else
+                return new Enemy(pos, random.nextInt(4) + 20, random.nextInt(8) + 4);
+        }
     }
 
     protected void onDraw(Canvas canvas) {
         if (isRunning) {
-            if (random.nextInt(100) == 1) sprites.add(createSprite());
+            int val = (int)(100*Math.exp(-score/100.0));
+            if (random.nextInt(val) == 0) sprites.add(createSprite());
         }
 
         if (clearSpritesNextTick) {
