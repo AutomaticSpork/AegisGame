@@ -20,7 +20,7 @@ public class ExpandSprite extends Sprite {
     public ExpandSprite(Vector pos) {
         super(pos, new Paint());
         radius = 0;
-        paint.setColor(Color.parseColor("#4caf50"));
+        paint.setColor(Color.parseColor("#9c27b0"));
         paint.setStrokeWidth(30);
         paint.setStyle(Paint.Style.STROKE);
     }

@@ -31,8 +31,15 @@ public class EliteEnemy extends EliteSprite {
 
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
-            Enemy enemy = new Enemy(new Vector(position.x - 40 + random.nextInt(80), position.y - 40 + random.nextInt(80)), radius / 3, speedMultipler * 2);
+            Enemy enemy = new Enemy(new Vector(position.x - 80 + random.nextInt(160), position.y - 80 + random.nextInt(160)), radius / 3, speedMultipler * 2);
             view.spritesToAdd.add(enemy);
         }
+    }
+
+    @Override
+    public void onCollide(GameView view) {
+        super.onCollide(view);
+
+        view.core.health -= 50;
     }
 }

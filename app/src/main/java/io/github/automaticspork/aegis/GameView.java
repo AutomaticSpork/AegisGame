@@ -19,9 +19,11 @@ import java.util.Random;
 import io.github.automaticspork.aegis.components.CenterMovingSprite;
 import io.github.automaticspork.aegis.components.CoreSprite;
 import io.github.automaticspork.aegis.components.EliteEnemy;
+import io.github.automaticspork.aegis.components.ElitePowerup;
 import io.github.automaticspork.aegis.components.EliteSprite;
 import io.github.automaticspork.aegis.components.Enemy;
 import io.github.automaticspork.aegis.components.Powerup;
+import io.github.automaticspork.aegis.components.PowerupType;
 import io.github.automaticspork.aegis.components.ShieldSprite;
 import io.github.automaticspork.aegis.components.TextSprite;
 import io.github.automaticspork.aegis.components.UISprite;
@@ -120,11 +122,14 @@ public class GameView extends View {
         }
         int result = random.nextInt(10);
         int result2 = random.nextInt(10);
-        if (result == 0) {
-            return new EliteEnemy(pos, random.nextInt(4) + 60, random.nextInt(2) + 4);
+        if (result < 2) {
+            if (result2 < 2)
+                return new ElitePowerup(pos, random.nextInt(4) + 60, random.nextInt(2) + 4, PowerupType.values()[random.nextInt(PowerupType.values().length)]);
+            else
+                return new EliteEnemy(pos, random.nextInt(4) + 60, random.nextInt(2) + 4);
         } else {
             if (result2 < 2)
-                return new Powerup(pos, random.nextInt(4) + 20, random.nextInt(2) + 3, Powerup.PowerupType.values()[random.nextInt(3)], 10);
+                return new Powerup(pos, random.nextInt(4) + 20, random.nextInt(2) + 3, PowerupType.values()[random.nextInt(PowerupType.values().length)]);
             else
                 return new Enemy(pos, random.nextInt(4) + 20, random.nextInt(8) + 4);
         }

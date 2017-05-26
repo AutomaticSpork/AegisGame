@@ -1,5 +1,9 @@
 package io.github.automaticspork.aegis.components;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+
 import io.github.automaticspork.aegis.GameView;
 import io.github.automaticspork.aegis.Vector;
 
@@ -32,5 +36,16 @@ public class EliteSprite extends CenterMovingSprite {
 
     public void onTap(GameView view) {
         toDelete = true;
+    }
+
+    @Override
+    public void draw(Canvas canvas, GameView view) {
+        super.draw(canvas, view);
+
+        Paint paint2 = new Paint();
+        paint2.setColor(Color.GRAY);
+        paint2.setStrokeWidth(20);
+        paint2.setStyle(Paint.Style.STROKE);
+        canvas.drawCircle(position.x, position.y, radius, paint2);
     }
 }

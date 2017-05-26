@@ -2,19 +2,23 @@ package io.github.automaticspork.aegis.components;
 
 import android.graphics.Color;
 
+import java.util.Random;
+
 import io.github.automaticspork.aegis.GameView;
 import io.github.automaticspork.aegis.Vector;
 
-public class Powerup extends CenterMovingSprite {
-    public PowerupType type;
-    public float value;
+/**
+ * Created by jaren on 5/25/17.
+ */
 
-    public Powerup(Vector pos, float radius, float sMult, PowerupType t) {
+public class ElitePowerup extends EliteSprite {
+    public PowerupType type;
+
+    public ElitePowerup(Vector pos, float radius, float sMult, PowerupType t) {
         super(pos, radius, sMult);
-        score = 5;
+        score = 10;
         String colorString = "#000000";
         type = t;
-        value = 20;
         switch (type) {
             case Health:
                 colorString = "#4caf50";
@@ -30,18 +34,18 @@ public class Powerup extends CenterMovingSprite {
     }
 
     @Override
-    public void onCollide(GameView view) {
-        super.onCollide(view);
+    public void onTap(GameView view) {
+        super.onTap(view);
 
         switch (type) {
             case Health:
-                view.core.health += value;
+                view.core.health = Math.max(view.core.health, view.core.maxHealth);
                 break;
             case Sweep:
-                view.shield.sweep += value;
+                view.core.charges++;
                 break;
             case Radius:
-                view.shield.radius += value;
+                score += 50;
                 break;
         }
     }
